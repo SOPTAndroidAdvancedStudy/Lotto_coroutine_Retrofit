@@ -1,4 +1,4 @@
-package com.example.lotto.Model
+package com.example.lotto.data.model
 
 data class LottoData(
     var totSellamnt: String,

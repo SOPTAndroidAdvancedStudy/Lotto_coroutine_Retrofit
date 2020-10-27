@@ -1,13 +1,10 @@
-package com.example.lotto
+package com.example.lotto.ui.main.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import androidx.core.os.postDelayed
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.coroutines.CoroutineScope
+import com.example.lotto.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,7 +19,7 @@ class Splash : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             delay(time)
-            startActivity(Intent(this@Splash,MainActivity::class.java))
+            startActivity(Intent(this@Splash, MainActivity::class.java))
             finish()
         }
 
