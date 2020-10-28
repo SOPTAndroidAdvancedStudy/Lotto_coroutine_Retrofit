@@ -50,6 +50,16 @@ class MainViewModel(
     }
 
     /**
+     * ViewModelFactory pattern을 이용해 custom ViewModel을 생성했습니다.
+     * 매개변수로 받아오는 것은 MainRepository이며 이 repo를 사용해 네트워킹을 대신 해줄 수 있습니다.
+     * 단점으로는 MainViewModel이 호출되는 단 한번에만 호출되기 때문에 데이터를 단 한번만 가져와야 되는 경우에
+     * 사용하는 것이 바람직해 보입니다.
+     */
+    fun onlyOneCall() = viewModelScope.launch {
+        _lottoNumber.value = Resource.success(mainRepository.getLottoCoroutines())
+    }
+
+    /**
      * repository pattern을 이용해 네트워킹을 사용했다.
      * 단점 : Repository의 크기가 커진다면 오히려 이 경우가 효과가 떨어지지 않을까라고 생각한다.
      */
