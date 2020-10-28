@@ -9,9 +9,13 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.lotto.R
+import com.example.lotto.data.api.RetrofitBuilder
+import com.example.lotto.data.api.RetrofitHelper
 import com.example.lotto.data.model.LottoData
 import com.example.lotto.databinding.ActivityMainBinding
+import com.example.lotto.ui.base.ViewModelFactory
 import com.example.lotto.ui.main.viewmodel.MainViewModel
 import com.example.lotto.utills.Status
 import kotlinx.android.synthetic.main.activity_main.*
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                mainViewModel.fetchLottoNormal()
+                mainViewModel.getLottoCoroutineMine()
             }
         }
 
@@ -54,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             if(lottie_wheel.isAnimating){
                 lottie_wheel.cancelAnimation()
                 countDownTimer.cancel()
-                mainViewModel.fetchLottoNormal()
+                mainViewModel.getLottoCoroutineMine()
             }else{
                 lottie_wheel.playAnimation()
                 countDownTimer.start()
@@ -66,17 +70,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupObserver(){
         mainViewModel.getLottoNumber().observe(this, Observer {
-            when(it.status){
-                Status.SUCCESS -> {
-                    it.data?.let {data ->
-                        setNumber(data)
+            it?.let { resource ->
+                when(resource.status){
+                    Status.SUCCESS -> {
+                        resource.data?.let {
+                            setNumber(it)
+                        }
                     }
-                }
-                Status.LOADING -> {
-                    // ProgressBar같은 걸로 처리해야함
-                }
-                Status.ERROR -> {
-                    Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
+                    Status.ERROR ->{
+                        Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
+                    }
+                    Status.LOADING ->{
+
+                    }
                 }
             }
         })
@@ -96,7 +102,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel(){
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProviders.of(
+            this,
+            ViewModelFactory(RetrofitHelper(RetrofitBuilder.retrofitService))
+        ).get(MainViewModel::class.java)
         binding.mainviewmodel = mainViewModel
     }
 }

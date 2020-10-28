@@ -15,9 +15,10 @@ interface RetrofitService {
     ) : Call<LottoData>
 
     // Coroutine
-    suspend fun getLottos(
+    @GET("common.do/")
+    suspend fun getLottoCoroutine(
         @Query("method") method : String,
         @Query("drwNo")drwNo: String
-    ) : Call<LottoData>
+    ) : LottoData
 
 }
