@@ -7,13 +7,7 @@ object RetrofitBuilder {
 
     private const val URL = "https://www.dhlottery.co.kr"
 
-    // Retrofit 객체
-    private val retrofit =
-        Retrofit.Builder()
-            .baseUrl(URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
+    // retrofit 객체 생성 함수
     private fun getRetrofit() : Retrofit{
         return Retrofit.Builder()
             .baseUrl(URL)

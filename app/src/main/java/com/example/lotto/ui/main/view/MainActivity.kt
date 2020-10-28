@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         // TODO : This part is not good
         val lotto_number = arrayListOf(number1,number2,number3,number4,number5,number6)
 
+        // TODO : CountDownTimer는 ViewModel안에 넣어서 관리하는게 바람직해보임
         val countDownTimer = object : CountDownTimer(3000, 100) { // done
             override fun onTick(millisUntilFinished: Long) {
                 lotto_number.forEach {
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // TODO : ClickListener는 databinding으로 처리한다.
         lottie_wheel.setOnClickListener {
             if(lottie_wheel.isAnimating){
                 lottie_wheel.cancelAnimation()
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    // 서버에서 호출받은 번호 set
     private fun setNumber(data : LottoData) {
         sec_number1.text = data.drwtNo1
         sec_number2.text = data.drwtNo2
